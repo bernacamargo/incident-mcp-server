@@ -78,8 +78,17 @@ MCP client (Claude, IDE agent, ...)
 
 **Policies mirror real on-call discipline:** acknowledge-before-resolve, auto-assignment to the on-call responder, severity validation at the door, and an audit entry for every transition.
 
+## Container
+
+```bash
+docker build -t incident-mcp-server .
+docker run -p 8081:8081 incident-mcp-server
+```
+
+Multi-stage build: Go compiles a static binary, runtime is a distroless non-root image with no shell inside.
+
 ## Roadmap
 
 - [x] **M1** — skeleton, seven tools, table-driven tests, CI (test + lint)
+- [x] **M3** — container image (distroless), release automation, design notes
 - [ ] **M2** — Postgres persistence, paging tool with escalation policy
-- [ ] **M3** — container image, GoReleaser, v0.1.0 release

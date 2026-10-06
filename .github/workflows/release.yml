@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Build binary
+        run: CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o incident-mcp-server_linux_amd64 ./cmd/incident-mcp-server
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: incident-mcp-server_linux_amd64
+          generate_release_notes: true
